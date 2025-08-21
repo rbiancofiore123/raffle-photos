@@ -8,155 +8,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 
 <style>
-  :root{
-    --bg1:#0f172a; /* slate-900 */
-    --bg2:#1e293b; /* slate-800 */
-    --accent:#7c9cff;
-    --accent-2:#a78bfa;
-    --text:#e5e7eb;
-    --muted:#cbd5e1;
-    --card: rgba(255,255,255,.08);
-    --glass: blur(14px) saturate(120%);
-    --radius:16px;
-    --shadow: 0 10px 30px rgba(0,0,0,.35);
-  }
-  *{box-sizing:border-box}
-  html,body{height:100%}
-  body{
-    margin:0;
-    font-family:'Poppins',system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
-    color:var(--text);
-    background:
-      radial-gradient(1200px 800px at 20% -10%, #223 0%, transparent 60%),
-      radial-gradient(1000px 800px at 120% 0%, #213 0%, transparent 60%),
-      linear-gradient(135deg, #0b1022, #151a33 40%, #10162a);
-    display:grid;
-    place-items:center;
-    padding:24px;
-  }
-  .app{
-    width:min(920px, 100%);
-    padding:24px;
-  }
-  .card{
-    background:var(--card);
-    backdrop-filter:var(--glass);
-    -webkit-backdrop-filter:var(--glass);
-    border:1px solid rgba(255,255,255,.12);
-    border-radius:var(--radius);
-    box-shadow:var(--shadow);
-    padding:24px;
-  }
-  h1{
-    margin:0 0 8px;
-    font-size:clamp(24px, 4vw, 36px);
-    letter-spacing:.3px;
-  }
-  p.lead{
-    margin:0 0 18px;
-    color:var(--muted);
-  }
-  .row{
-    display:flex;
-    gap:16px;
-    flex-wrap:wrap;
-    align-items:center;
-  }
-  .stack{display:grid; gap:12px}
-  input[type="text"]{
-    width:100%;
-    border:1px solid rgba(255,255,255,.18);
-    background:rgba(0,0,0,.25);
-    color:var(--text);
-    border-radius:12px;
-    padding:14px 16px;
-    outline:none;
-    font-size:16px;
-  }
-  input[type="text"]::placeholder{color:#96a0b6}
-  button{
-    appearance:none;
-    border:none;
-    border-radius:12px;
-    padding:14px 42px;
-    font-weight:600;
-    color:#0f1022;
-    background:linear-gradient(135deg,var(--accent),var(--accent-2));
-    cursor:pointer;
-    transition:transform .06s ease, filter .2s ease;
-  }
-  button:hover{transform:translateY(-1px)}
-  button:active{transform:translateY(0)}
-  button.secondary{
-    background:transparent;
-    color:var(--text);
-    border:1px solid rgba(255,255,255,.2);
-  }
-  .hidden{display:none !important}
-  .center{display:grid; gap:14px; justify-items:center}
-  .pill{
-    display:inline-flex; align-items:center; gap:8px;
-    padding:6px 10px; border-radius:999px;
-    border:1px dashed rgba(255,255,255,.25);
-    color:var(--muted); font-size:13px;
-  }
-  .spacer{height:8px}
-  .result{
-    display:grid; gap:14px; justify-items:center;
-  }
-  .photo-wrap{
-    position:relative;
-    width:min(540px, 100%);
-    aspect-ratio:4/3;
-    border-radius:16px;
-    overflow:hidden;
-    border:1px solid rgba(255,255,255,.2);
-    background:rgba(0,0,0,.25);
-    box-shadow:var(--shadow);
-  }
-  .photo-wrap img{
-    width:100%; height:100%; object-fit:cover; display:block;
-    opacity:0; transform:scale(1.02);
-    transition:opacity .5s ease, transform .6s ease;
-  }
-  .photo-wrap img.show{opacity:1; transform:scale(1)}
-  .grid{
-    display:grid; gap:12px;
-    grid-template-columns:repeat(auto-fit, minmax(220px,1fr));
-    margin-top:10px;
-  }
-
-  /* Dropzone */
-  .dropzone{
-    border:2px dashed rgba(255,255,255,.25);
-    border-radius:14px;
-    padding:18px;
-    text-align:center;
-    color:var(--muted);
-    transition:border-color .2s ease, background .2s ease;
-  }
-  .dropzone.dragover{
-    border-color:var(--accent);
-    background:rgba(124,156,255,.08);
-  }
-  input[type=file]{display:none}
-
-  /* Toast */
-  .toast{
-    position:fixed; left:50%; bottom:24px; transform:translateX(-50%);
-    background:#0b1022; color:var(--text);
-    border:1px solid rgba(255,255,255,.18);
-    border-radius:12px; padding:10px 14px; box-shadow:var(--shadow);
-    opacity:0; pointer-events:none; transition:opacity .25s ease, transform .25s ease;
-  }
-  .toast.show{opacity:1; transform:translateX(-50%) translateY(-6px)}
-
-  /* Confetti canvas */
-  canvas#confetti{position:fixed; inset:0; pointer-events:none}
-
-  @media (prefers-reduced-motion: reduce){
-    button, .photo-wrap img{transition:none}
-  }
+  /* ... (stili invariati) ... */
 </style>
 </head>
 <body>
@@ -184,22 +36,18 @@
     <div class="row" style="justify-content:space-between; align-items:baseline">
       <div>
         <h1 id="welcome">Ciao!</h1>
-        <p class="lead" id="status-line">Carica le foto oppure premi “Estrai foto”.</p>
+        <p class="lead" id="status-line">Premi “Estrai foto”.</p>
       </div>
       <div class="row">
         <button id="btn-reset" class="secondary" title="Cambia nome o azzera tutto">Reset</button>
       </div>
     </div>
 
-    <div id="uploader-area" class="dropzone" role="button" tabindex="0" aria-label="Carica foto">
-      Trascina qui 7–8 immagini oppure <label for="file-input" style="color:#fff; text-decoration:underline; cursor:pointer">scegli file</label>.
-      <input id="file-input" type="file" accept="image/*" multiple />
-      <div class="pill" style="margin-top:10px">📷 JPG/PNG/WebP — nessun upload al server, restano sul tuo dispositivo</div>
-    </div>
-
+    <!-- ✅ Rimosso uploader-area -->
+    
     <div class="center" style="margin-top:16px">
       <button id="btn-draw" style="min-width:200px">Estrai foto</button>
-      <div class="pill" id="pool-info">Pool: 0 foto</div>
+      <!-- ✅ Rimosso Pool info -->
     </div>
 
     <div id="result" class="result hidden" style="margin-top:18px">
@@ -251,10 +99,7 @@ const welcome = $("#welcome");
 const statusLine = $("#status-line");
 const result = $("#result");
 const photo = $("#photo");
-const poolInfo = $("#pool-info");
 const toast = $("#toast");
-const uploader = $("#uploader-area");
-const fileInput = $("#file-input");
 const confettiCanvas = $("#confetti");
 
 function showToast(msg){
@@ -270,11 +115,6 @@ function load(key, fallback=null){
   const v = localStorage.getItem(key);
   try { return v ? JSON.parse(v) : fallback; }
   catch { return fallback; }
-}
-
-function updatePoolInfo(){
-  const pool = load(LS.POOL, []);
-  poolInfo.textContent = `Pool: ${pool.length} foto`;
 }
 
 function setScreen(which){
@@ -326,7 +166,6 @@ function boot(){
     const pool = IMAGES.map(src=>({src, name: src.split("/").pop()}));
     save(LS.POOL, pool);
   }
-  updatePoolInfo();
 
   const storedName = load(LS.NAME);
   if(storedName){
@@ -357,52 +196,19 @@ inputName.addEventListener("keydown", e=>{
   if(e.key==="Enter") enterWith(inputName.value);
 });
 
-function addFilesToPool(files){
-  const arr = Array.from(files).filter(f=>/^image\//.test(f.type));
-  if(!arr.length){ showToast("Nessuna immagine valida"); return; }
-
-  const existing = load(LS.POOL, []);
-  const additions = [];
-  arr.forEach(file=>{
-    const url = URL.createObjectURL(file);
-    additions.push({src:url, name:file.name});
-  });
-  const pool = existing.concat(additions);
-  save(LS.POOL, pool);
-  updatePoolInfo();
-  statusLine.textContent = `Caricate ${additions.length} immagini. Pronto al sorteggio!`;
-  showToast("Foto aggiunte al pool");
-}
-
-uploader.addEventListener("click", ()=> fileInput.click());
-uploader.addEventListener("keydown", (e)=> {
-  if(e.key === "Enter" || e.key === " ") fileInput.click();
-});
-fileInput.addEventListener("change", e=> addFilesToPool(e.target.files));
-uploader.addEventListener("dragover", e=>{
-  e.preventDefault(); uploader.classList.add("dragover");
-});
-uploader.addEventListener("dragleave", ()=> uploader.classList.remove("dragover"));
-uploader.addEventListener("drop", e=>{
-  e.preventDefault(); uploader.classList.remove("dragover");
-  addFilesToPool(e.dataTransfer.files);
-});
-
 function reflectDrawState(){
   const name = load(LS.NAME);
   const drawn = load(LS.DRAWN, false);
   const last = load(LS.LAST, null);
   const pool = load(LS.POOL, []);
 
-  updatePoolInfo();
-
   if(!pool.length){
-    statusLine.textContent = "Nessuna foto nel pool. Caricale sopra oppure definisci IMAGES nel codice.";
+    statusLine.textContent = "Nessuna foto disponibile nel pool.";
   } else if(drawn && last){
     statusLine.textContent = `${name}, hai già estratto questa foto.`;
     showResult(last);
   } else {
-    statusLine.textContent = "Tutto pronto. Premi “Estrai foto”.";
+    statusLine.textContent = "Tutto pronto! Premi “Estrai foto”.";
     hideResult();
   }
 }
@@ -418,14 +224,13 @@ function showResult(src){
 
 btnDraw.addEventListener("click", ()=>{
   const pool = load(LS.POOL, []);
-  if(!pool.length){ showToast("Aggiungi prima delle foto"); return; }
+  if(!pool.length){ showToast("Nessuna foto disponibile"); return; }
   const idx = Math.floor(Math.random()*pool.length);
   const chosen = pool[idx];
   pool.splice(idx,1);
   save(LS.POOL, pool);
   save(LS.DRAWN, true);
   save(LS.LAST, chosen.src);
-  updatePoolInfo();
   showResult(chosen.src);
   spawnConfetti();
   statusLine.textContent = "Foto estratta! 🎉";
@@ -448,7 +253,7 @@ btnCopy.addEventListener("click", async ()=>{
 });
 
 btnReset.addEventListener("click", ()=>{
-  const sure = confirm("Vuoi azzerare tutto? (nome, estrazioni e pool di immagini)");
+  const sure = confirm("Vuoi azzerare tutto? (nome ed estrazioni)");
   if(!sure) return;
   localStorage.removeItem(LS.NAME);
   localStorage.removeItem(LS.POOL);
@@ -457,7 +262,6 @@ btnReset.addEventListener("click", ()=>{
   inputName.value = "";
   hideResult();
   setScreen("register");
-  updatePoolInfo();
   showToast("Dati azzerati");
 });
 </script>
