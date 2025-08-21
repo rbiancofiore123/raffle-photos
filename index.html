@@ -175,7 +175,6 @@
       <div class="stack center">
         <div class="spacer"></div>
         <button id="btn-enter">Entra</button>
-        <button id="btn-skip" class="secondary" title="Usa un nome temporaneo">Prova veloce</button>
       </div>
     </div>
   </section>
@@ -192,7 +191,6 @@
       </div>
     </div>
 
-    <!-- Se non definisci IMAGES nel codice, puoi caricarle qui -->
     <div id="uploader-area" class="dropzone" role="button" tabindex="0" aria-label="Carica foto">
       Trascina qui 7–8 immagini oppure <label for="file-input" style="color:#fff; text-decoration:underline; cursor:pointer">scegli file</label>.
       <input id="file-input" type="file" accept="image/*" multiple />
@@ -217,12 +215,6 @@
 <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
 <script>
-/* =========================
-   CONFIGURAZIONE FOTO (opzionale)
-   -------------------------
-   Se hai URL già hostati, inseriscili qui sotto al posto dell'array vuoto.
-   Altrimenti usa il caricatore integrato (drag&drop / scegli file).
-========================= */
 const IMAGES = [
   "https://raw.githubusercontent.com/rbiancofiore123/raffle-photos/main/photo1.JPG",
   "https://raw.githubusercontent.com/rbiancofiore123/raffle-photos/main/photo2.jpg",
@@ -239,25 +231,18 @@ const IMAGES = [
   "https://raw.githubusercontent.com/rbiancofiore123/raffle-photos/main/photo13.jpg",
 ];
 
-/* =========================
-   CHIAVI LOCALSTORAGE
-========================= */
 const LS = {
   NAME: "raffle:name",
-  POOL: "raffle:pool",          // array di oggetti {src, name}
-  DRAWN: "raffle:drawn",        // boolean: l'utente ha già estratto?
-  LAST: "raffle:last",          // ultima foto estratta (src)
+  POOL: "raffle:pool",
+  DRAWN: "raffle:drawn",
+  LAST: "raffle:last",
 };
 
-/* =========================
-   ELEMENTI UI
-========================= */
 const $ = sel => document.querySelector(sel);
 const screenRegister = $("#screen-register");
 const screenMenu = $("#screen-menu");
 const inputName = $("#name");
 const btnEnter = $("#btn-enter");
-const btnSkip = $("#btn-skip");
 const btnReset = $("#btn-reset");
 const btnDraw = $("#btn-draw");
 const btnCopy = $("#btn-copy");
@@ -272,9 +257,6 @@ const uploader = $("#uploader-area");
 const fileInput = $("#file-input");
 const confettiCanvas = $("#confetti");
 
-/* =========================
-   UTILITY
-========================= */
 function showToast(msg){
   toast.textContent = msg;
   toast.classList.add("show");
@@ -305,9 +287,6 @@ function setScreen(which){
   }
 }
 
-/* =========================
-   CONFETTI (leggerissimo)
-========================= */
 const cx = confettiCanvas.getContext("2d");
 let confetti = [];
 function spawnConfetti(){
@@ -342,11 +321,7 @@ function animateConfetti(){
   requestAnimationFrame(animateConfetti);
 }
 
-/* =========================
-   INIZIALIZZAZIONE
-========================= */
 function boot(){
-  // Se IMAGES è valorizzato, usa quello per costruire il pool se non esiste
   if(IMAGES.length && !load(LS.POOL)){
     const pool = IMAGES.map(src=>({src, name: src.split("/").pop()}));
     save(LS.POOL, pool);
@@ -365,9 +340,6 @@ function boot(){
 }
 document.addEventListener("DOMContentLoaded", boot);
 
-/* =========================
-   REGISTRAZIONE
-========================= */
 function enterWith(name){
   const clean = (name||"").trim();
   if(!clean){
@@ -384,11 +356,7 @@ btnEnter.addEventListener("click", ()=> enterWith(inputName.value));
 inputName.addEventListener("keydown", e=>{
   if(e.key==="Enter") enterWith(inputName.value);
 });
-btnSkip.addEventListener("click", ()=> enterWith("Ospite"));
 
-/* =========================
-   UPLOADER (drag&drop o file input)
-========================= */
 function addFilesToPool(files){
   const arr = Array.from(files).filter(f=>/^image\//.test(f.type));
   if(!arr.length){ showToast("Nessuna immagine valida"); return; }
@@ -420,9 +388,6 @@ uploader.addEventListener("drop", e=>{
   addFilesToPool(e.dataTransfer.files);
 });
 
-/* =========================
-   ESTRAZIONE
-========================= */
 function reflectDrawState(){
   const name = load(LS.NAME);
   const drawn = load(LS.DRAWN, false);
@@ -448,7 +413,6 @@ function hideResult(){
 function showResult(src){
   result.classList.remove("hidden");
   photo.src = src;
-  // attiva effetto fade-in dopo il load
   photo.onload = ()=> photo.classList.add("show");
 }
 
@@ -457,7 +421,6 @@ btnDraw.addEventListener("click", ()=>{
   if(!pool.length){ showToast("Aggiungi prima delle foto"); return; }
   const idx = Math.floor(Math.random()*pool.length);
   const chosen = pool[idx];
-  // rimuovi dal pool per evitare ripetizioni
   pool.splice(idx,1);
   save(LS.POOL, pool);
   save(LS.DRAWN, true);
@@ -469,7 +432,6 @@ btnDraw.addEventListener("click", ()=>{
 });
 
 btnAnother.addEventListener("click", ()=>{
-  // Consenti nuova estrazione per lo stesso utente
   save(LS.DRAWN, false);
   reflectDrawState();
 });
@@ -485,9 +447,6 @@ btnCopy.addEventListener("click", async ()=>{
   }
 });
 
-/* =========================
-   RESET
-========================= */
 btnReset.addEventListener("click", ()=>{
   const sure = confirm("Vuoi azzerare tutto? (nome, estrazioni e pool di immagini)");
   if(!sure) return;
