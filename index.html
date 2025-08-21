@@ -179,10 +179,7 @@
 
     <div id="result" class="result hidden" style="margin-top:18px">
       <div class="photo-wrap"><img id="photo" alt="Foto estratta" /></div>
-      <div class="row" style="justify-content:center">
-        <button id="btn-copy" class="secondary">Copia link foto</button>
-        <button id="btn-another" class="secondary">Estrai di nuovo</button>
-      </div>
+      <!-- 🔴 Pulsanti inferiori rimossi -->
     </div>
   </section>
 </div>
@@ -220,8 +217,6 @@ const inputName = $("#name");
 const btnEnter = $("#btn-enter");
 const btnReset = $("#btn-reset");
 const btnDraw = $("#btn-draw");
-const btnCopy = $("#btn-copy");
-const btnAnother = $("#btn-another");
 const welcome = $("#welcome");
 const statusLine = $("#status-line");
 const result = $("#result");
@@ -352,13 +347,7 @@ btnDraw.addEventListener("click", ()=>{
   spawnConfetti();
   statusLine.textContent = "Foto estratta! 🎉";
 });
-btnAnother.addEventListener("click", ()=>{ save(LS.DRAWN, false); reflectDrawState(); });
-btnCopy.addEventListener("click", async ()=>{
-  const src = load(LS.LAST, null);
-  if(!src){ showToast("Nessuna foto da copiare"); return; }
-  try{ await navigator.clipboard.writeText(src); showToast("Link copiato negli appunti"); }
-  catch{ showToast("Impossibile copiare il link"); }
-});
+
 btnReset.addEventListener("click", ()=>{
   if(!confirm("Vuoi azzerare tutto? (nome ed estrazioni)")) return;
   localStorage.removeItem(LS.NAME);
