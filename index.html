@@ -37,6 +37,8 @@
   .app{
     width:min(920px, 100%);
     padding:24px;
+    position:relative;
+    z-index:1; /* sopra le decorazioni */
   }
   .card{
     background:var(--card);
@@ -135,11 +137,47 @@
   }
   .toast.show{opacity:1; transform:translateX(-50%) translateY(-6px)}
   /* Confetti canvas */
-  canvas#confetti{position:fixed; inset:0; pointer-events:none}
+  canvas#confetti{position:fixed; inset:0; pointer-events:none; z-index:2}
+
+  /* --- Decorazioni con la foto scontornata --- */
+  .bg-decor{
+    position:fixed;
+    z-index:0;               /* dietro alla UI */
+    width:72px;              /* piccoline */
+    opacity:.9;
+    pointer-events:none;     /* non catturano click */
+    filter:drop-shadow(0 2px 4px rgba(0,0,0,.35));
+    user-select:none;
+  }
+  /* posizioni attorno ai bordi per non coprire la box centrale */
+  .decor-1{ top:32px; left:28px; transform:rotate(-8deg); }
+  .decor-2{ top:60px; right:34px; transform:rotate(6deg); }
+  .decor-3{ bottom:44px; left:40px; transform:rotate(10deg); }
+  .decor-4{ bottom:60px; right:48px; transform:rotate(-6deg); }
+  .decor-5{ top:40%; left:24px; transform:rotate(4deg); }
+  .decor-6{ top:48%; right:26px; transform:rotate(-12deg); }
+  .decor-7{ top:14px; left:50%; transform:translateX(-480px) rotate(8deg); } /* fuori dal centro */
+  /* Riduci o nascondi su schermi piccoli */
+  @media (max-width: 900px){
+    .bg-decor{ width:56px; opacity:.75; }
+    .decor-7{ display:none; }
+  }
+  @media (max-width: 680px){
+    .bg-decor{ display:none; } /* su mobile evitiamo ogni interferenza */
+  }
 </style>
 </head>
 <body>
 <canvas id="confetti"></canvas>
+
+<!-- Immagini decorative: metti "Immagine.jpg" nella stessa cartella dell'HTML -->
+<img src="Immagine.jpg" alt="" class="bg-decor decor-1">
+<img src="Immagine.jpg" alt="" class="bg-decor decor-2">
+<img src="Immagine.jpg" alt="" class="bg-decor decor-3">
+<img src="Immagine.jpg" alt="" class="bg-decor decor-4">
+<img src="Immagine.jpg" alt="" class="bg-decor decor-5">
+<img src="Immagine.jpg" alt="" class="bg-decor decor-6">
+<img src="Immagine.jpg" alt="" class="bg-decor decor-7">
 
 <div class="app">
   <!-- SCHERMATA REGISTRAZIONE -->
@@ -170,16 +208,13 @@
       </div>
     </div>
 
-    <!-- 🔴 Uploader rimosso -->
-
     <div class="center" style="margin-top:16px">
       <button id="btn-draw" style="min-width:200px">Estrai foto</button>
-      <!-- 🔴 Pool info rimosso -->
     </div>
 
     <div id="result" class="result hidden" style="margin-top:18px">
       <div class="photo-wrap"><img id="photo" alt="Foto estratta" /></div>
-      <!-- 🔴 Pulsanti inferiori rimossi -->
+      <!-- Pulsanti inferiori rimossi come richiesto -->
     </div>
   </section>
 </div>
